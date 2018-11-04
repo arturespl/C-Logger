@@ -1,3 +1,0 @@
-VERSION.o: ../VERSION.cpp ../VERSION.h
-
-../VERSION.h:

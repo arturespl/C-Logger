@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#define BUILD
+
 int main(int argc, char** argv)
 {
 	LOG_DEBUG("slaby blad : %s %d", "asdfaf", 2);

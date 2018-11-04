@@ -121,7 +121,6 @@ void myLOG(const char* LOG_LVL
 		,int LINE
 		,const char* format, ...)
 {
-#define FORMAT "\n%s | %s | %s | %s:%d | %s"
 	va_list arglist;
 	int needed_length;
 	char * buff1;
@@ -133,9 +132,19 @@ void myLOG(const char* LOG_LVL
 	getTime(_time, 512);
 	getDate(_date, 512);
 
+
+#ifdef BUILD
+#define FORMAT "\n%s | %s | %s | %s:%d | %s"
 	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
 	buff1 = (char*)malloc( needed_length*sizeof(char) );
 	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
+#else
+#define FORMAT "\n%s | %s | %s | %s"
+	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, format);
+	buff1 = (char*)malloc( needed_length*sizeof(char) );
+	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, format);
+
+#endif
 
 	va_start( arglist, format );
 	needed_length = vsnprintf(NULL, 0, buff1, arglist);
