@@ -8,7 +8,6 @@
 
 using namespace std;
 
-#define BUILD
 
 int main(int argc, char** argv)
 {

@@ -134,15 +134,15 @@ void myLOG(const char* LOG_LVL
 
 
 #ifdef BUILD
-#define FORMAT "\n%s | %s | %s | %s:%d | %s"
-	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
-	buff1 = (char*)malloc( needed_length*sizeof(char) );
-	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
-#else
 #define FORMAT "\n%s | %s | %s | %s"
 	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, format);
 	buff1 = (char*)malloc( needed_length*sizeof(char) );
 	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, format);
+#else
+#define FORMAT "\n%s | %s | %s | %s:%d | %s"
+	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
+	buff1 = (char*)malloc( needed_length*sizeof(char) );
+	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
 
 #endif
 
