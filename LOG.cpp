@@ -4,13 +4,14 @@
  *  Created on: 12.01.2017
  *      Author: artur
  */
-#include <stdarg.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
+#include <cstdarg>
+#include <cstring>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
 #include <iostream>
 #include <unistd.h>
+#include <fstream>
 
 
 #ifdef __linux__
@@ -49,8 +50,6 @@ void getDate(char* ret, int buflen){
 
 	sprintf(ret, "%d %d %d", timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900);
 }
-
-
 
 
 
@@ -148,19 +147,28 @@ void myLOG(const char* LOG_LVL
 
 	va_start( arglist, format );
 	needed_length = vsnprintf(NULL, 0, buff1, arglist) * sizeof(char);
+	va_end( arglist );
 	buff2 = (char*)malloc(needed_length + 1);
-	bzero(buff2, needed_length + 1);
+	bzero(buff2, needed_length);
 	va_start( arglist, format );
 	vsprintf(buff2, buff1, arglist);
-
 	va_end( arglist );
 
 	fwrite(buff2, needed_length, 1, stderr);
 	fflush(stderr);
 
-	pFile = fopen (getLogName(),"a");
-	fwrite(buff2, needed_length, 1, pFile);
-	fclose(pFile);
+//TODO corrupted size vs prev_size 
+/*
+	pFile = fopen ("/tmp/log.txt","a");
+	if(pFile==NULL)
+	{
+		fprintf(stderr, "Can't open file: %s", getLogName());
+	}
+	else
+	{
+		fwrite(buff2, strlen(buff2), 1, pFile);
+		//fclose(pFile);
+	}*/
 
 	free(buff1);
 	free(buff2);
