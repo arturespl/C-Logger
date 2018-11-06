@@ -147,24 +147,23 @@ void myLOG(const char* LOG_LVL
 #endif
 
 	va_start( arglist, format );
-	needed_length = vsnprintf(NULL, 0, buff1, arglist);
-	buff2 = (char*)malloc(sizeof(char)*needed_length+1);
-	buff2[sizeof(char)*needed_length] = '\0';
+	needed_length = vsnprintf(NULL, 0, buff1, arglist) * sizeof(char);
+	buff2 = (char*)malloc(needed_length + 1);
+	bzero(buff2, needed_length + 1);
 	va_start( arglist, format );
 	vsprintf(buff2, buff1, arglist);
 
-	//fprintf(stderr, buff2);
-	fwrite(buff2, sizeof(char)*needed_length, 1, stderr);
+	va_end( arglist );
+
+	fwrite(buff2, needed_length, 1, stderr);
+	fflush(stderr);
 
 	pFile = fopen (getLogName(),"a");
-	//fprintf(pFile, buff2);
-	fwrite(buff2, sizeof(char)*needed_length, 1, pFile);
+	fwrite(buff2, needed_length, 1, pFile);
 	fclose(pFile);
 
 	free(buff1);
 	free(buff2);
 
-	va_end( arglist );
-	fflush(stderr);
 }
 
