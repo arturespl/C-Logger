@@ -16,6 +16,8 @@ int main(int argc, char** argv)
 	LOG_WARNING("slaby blad : %s %d", "asdfaf", 2);
 	LOG_ERROR("slaby blad : %s %d", "asdfaf", 2);
 
+	LOG_INFO("slaby blad");
+
 	cout << "\nProject Name: " << getenv("PROJECT_NAME") << flush;
 
 	return 0;
