@@ -18,7 +18,7 @@
 #include <libgen.h>
 #endif
 
-#include "LOG.h"
+#include "LOG.hpp"
 
 #define logFileNameLength 512
 char* logFileName = 0;
@@ -134,41 +134,41 @@ void myLOG(const char* LOG_LVL
 
 #ifdef BUILD
 #define FORMAT "\n%s | %s | %s | %s"
-	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, format);
-	buff1 = (char*)malloc( needed_length*sizeof(char) );
+	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, format) + 1 ) * sizeof(char) ;
+	buff1 = (char*)malloc( needed_length );
 	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, format);
 #else
 #define FORMAT "\n%s | %s | %s | %s:%d | %s"
-	needed_length = snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
-	buff1 = (char*)malloc( needed_length*sizeof(char) );
+	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format) + 1) * sizeof(char);
+	buff1 = (char*)malloc( needed_length);
 	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
 
 #endif
 
 	va_start( arglist, format );
-	needed_length = vsnprintf(NULL, 0, buff1, arglist) * sizeof(char);
+	needed_length = (vsnprintf(NULL, 0, buff1, arglist)  + 1) * sizeof(char);
 	va_end( arglist );
-	buff2 = (char*)malloc(needed_length + 1);
+	buff2 = (char*)malloc(needed_length);
 	bzero(buff2, needed_length);
 	va_start( arglist, format );
 	vsprintf(buff2, buff1, arglist);
 	va_end( arglist );
 
-	fwrite(buff2, needed_length, 1, stderr);
-	fflush(stderr);
+	fwrite(buff2, needed_length, 1, stdout);
+	fflush(stdout);
 
 //TODO corrupted size vs prev_size 
-/*
-	pFile = fopen ("/tmp/log.txt","a");
+
+	pFile = fopen (getLogName(),"a");
 	if(pFile==NULL)
 	{
-		fprintf(stderr, "Can't open file: %s", getLogName());
+		fprintf(stderr, "\nCan't open file: %s", getLogName());
 	}
 	else
 	{
 		fwrite(buff2, strlen(buff2), 1, pFile);
-		//fclose(pFile);
-	}*/
+		fclose(pFile);
+	}
 
 	free(buff1);
 	free(buff2);
