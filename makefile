@@ -9,12 +9,12 @@ OBJDIR	 	= obj/
 SRCDIR	 	= src/
 INSTALLDIR	= /usr/local/bin/
 
-SOURCES	= $(SRCDIR)*
+SOURCES	= $(shell ls $(SRCDIR))
+
+DEPOBJ =  
 
 
 OBJECTS += $(SOURCES:%.cpp=$(OBJDIR)%.o)
-
-#INCLUDES += $(SOURCES:%.cpp=$(OBJDIR)%.hpp)
 
 
 #################################################################################
@@ -23,10 +23,11 @@ __Start__: $(SOURCES) $(OUT)
 
 
 $(OUT): $(OBJECTS)
-	$(CC) -o $@ $(CPPFLAGS) $(OBJECTS) main.cpp 
+	$(CC) -o $@ $(CPPFLAGS) $(OBJECTS) $(DEPOBJ) main.cpp 
+
 
 $(SOURCES): $(INCDIR)$(@:%.cpp=%.hpp) $(SRCDIR)$@
-	$(CC) -c $(CPPFLAGS) $@ -o $(OBJDIR)$(@:$(SRCDIR)%.cpp=%.o)
+	$(CC) -c $(CPPFLAGS) $(SRCDIR)$@ -o $(@:%.cpp=$(OBJDIR)%.o)
 
 test:
 	@$(MAKE) ${OUT} -B
