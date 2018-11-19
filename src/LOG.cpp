@@ -131,17 +131,18 @@ void myLOG(const char* LOG_LVL
 	getTime(_time, 512);
 	getDate(_date, 512);
 
+	int pid = getpid();
 
 #ifdef BUILD
-#define FORMAT "\n%s | %s | %s | %s"
-	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, format) + 1 ) * sizeof(char) ;
+#define FORMAT "\n%s | pid:%d | %s | %s | %s"
+	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, pid, _date, _time, format) + 1 ) * sizeof(char) ;
 	buff1 = (char*)malloc( needed_length );
-	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, format);
+	sprintf(buff1, FORMAT, LOG_LVL, pid, _date, _time, format);
 #else
-#define FORMAT "\n%s | %s | %s | %s:%d | %s"
-	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format) + 1) * sizeof(char);
+#define FORMAT "\n%s | pid:%d | %s | %s | %s:%d | %s"
+	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, pid, _date, _time, FILEN, LINE, format) + 1) * sizeof(char);
 	buff1 = (char*)malloc( needed_length);
-	sprintf(buff1, FORMAT, LOG_LVL, _date, _time, FILEN, LINE, format);
+	sprintf(buff1, FORMAT, LOG_LVL, pid, _date, _time, FILEN, LINE, format);
 
 #endif
 
