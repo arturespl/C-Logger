@@ -17,7 +17,6 @@
 #ifdef __linux__
 #include <libgen.h>
 #endif
-
 #include "LOG.hpp"
 
 #define logFileNameLength 512
@@ -87,30 +86,34 @@ char * getLogName(){
 	time (&rawtime);
 	timeinfo = localtime (&rawtime);
 
-#ifdef __linux__
-	char result[logFileNameLength] = {0};
-	ssize_t count = readlink("/proc/self/exe", result, logFileNameLength);
-	if (count != -1)
-	{
-		path = dirname(result);
-	}
-	char cmd[logFileNameLength] = {0};
-	sprintf(cmd, "mkdir -p %s/Logs", path);
-	system(cmd);
-#endif
+	#ifdef __linux__
+		/*char result[logFileNameLength] = {0};
+		ssize_t count = readlink("/proc/self/exe", result, logFileNameLength);
+		if (count != -1)
+		{
+			path = dirname(result);
+		}*/
+		char cmd[logFileNameLength] = {0};
+		//sprintf(cmd, "mkdir -p %s/Logs", path);
+		sprintf(cmd, "mkdir -p /var/log/Logs");
+		system(cmd);
+	#endif
 
-	path==0 ?
-	sprintf(logFileName, "Logs/LOG_%s", asctime(timeinfo)) :
-	sprintf(logFileName, "%s/Logs/LOG_%s", path, asctime(timeinfo));
+	//if(path==0)
+		sprintf(logFileName, "/var/log/Logs/LOG_%s", asctime(timeinfo));
+	//else 
+	//	sprintf(logFileName, "%s/Logs/LOG_%s.txt", path, asctime(timeinfo));
 
-	sprintf(logFileName+strlen(logFileName)-1, ".txt");
+	sprintf(logFileName + strlen(logFileName) - 1, ".txt");
 
 	unsigned int i=0;
-	for(;i<strlen(logFileName); ++i)
+	for(;i<logFileNameLength; ++i)
 	{
 		if(logFileName[i]==' ')
 			logFileName[i] = '-';
 	}
+
+	myLOG("INFO   ", __FILE__, __LINE__, "Logging to file: %s", logFileName);
 
 	return logFileName;
 }
@@ -160,10 +163,13 @@ void myLOG(const char* LOG_LVL
 
 //TODO corrupted size vs prev_size 
 
-	pFile = fopen (getLogName(),"a");
+	char* filename = getLogName();
+
+	pFile = fopen (filename,"a");
 	if(pFile==NULL)
 	{
-		fprintf(stderr, "\nCan't open file: %s", getLogName());
+		fprintf(stderr, "\nCan't open file: %s", filename);
+		fflush(stderr);
 	}
 	else
 	{

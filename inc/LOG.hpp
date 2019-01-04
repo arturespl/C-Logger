@@ -8,7 +8,7 @@
 #ifndef LOG_H_
 #define LOG_H_
 
-#define DEBUG
+//#define DEBUG
 //#define BUILD
 
 void myLOG(const char* LOG_LVL
@@ -29,26 +29,26 @@ void setLogFileName(char* buff, int buflen);
 
 #ifdef DEBUG
 
-#define LOG_INFO(s,...) 	myLOG("INFO   ", __FILE__, __LINE__, s, __VA_ARGS__)
 #define LOG_DEBUG(s,...) 	myLOG("DEBUG  ", __FILE__, __LINE__, s, __VA_ARGS__)
+#define LOG_INFO(s,...) 	myLOG("INFO   ", __FILE__, __LINE__, s, __VA_ARGS__)
 #define LOG_WARNING(s,...) 	myLOG("WARNING", __FILE__, __LINE__,  s, __VA_ARGS__)
 #define LOG_ERROR(s,...) 	myLOG("ERROR  ", __FILE__, __LINE__, s, __VA_ARGS__)
 
 #elif defined INFO
-#define LOG_INFO(s,...) 	
-#define LOG_DEBUG(s,...) 	myLOG("DEBUG  ", __FILE__, __LINE__, s, __VA_ARGS__)
+#define LOG_DEBUG(s,...)
+#define LOG_INFO(s,...) 	myLOG("INFO   ", __FILE__, __LINE__, s, __VA_ARGS__)
 #define LOG_WARNING(s,...) 	myLOG("WARNING", __FILE__, __LINE__,  s, __VA_ARGS__)
 #define LOG_ERROR(s,...) 	myLOG("ERROR  ", __FILE__, __LINE__, s, __VA_ARGS__)
 
 #elif defined WARNING
-#define LOG_INFO(s,...) 	
 #define LOG_DEBUG(s,...) 	
+#define LOG_INFO(s,...) 	
 #define LOG_WARNING(s,...) 	myLOG("WARNING", __FILE__, __LINE__,  s, __VA_ARGS__)
 #define LOG_ERROR(s,...) 	myLOG("ERROR  ", __FILE__, __LINE__, s, __VA_ARGS__)
 
 #elif defined ERROR
-#define LOG_INFO(s,...) 
 #define LOG_DEBUG(s,...)
+#define LOG_INFO(s,...) 
 #define LOG_WARNING(s,...)
 #define LOG_ERROR(s,...) 	myLOG("ERROR  ", __FILE__, __LINE__, s, __VA_ARGS__)
 
