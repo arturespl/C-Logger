@@ -8,7 +8,7 @@
 #ifndef LOG_H_
 #define LOG_H_
 
-//#define DEBUG
+#define DEBUG
 //#define BUILD
 
 void myLOG(const char* LOG_LVL

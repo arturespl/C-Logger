@@ -87,12 +87,12 @@ char * getLogName(){
 	timeinfo = localtime (&rawtime);
 
 	#ifdef __linux__
-		/*char result[logFileNameLength] = {0};
+		char result[logFileNameLength] = {0};
 		ssize_t count = readlink("/proc/self/exe", result, logFileNameLength);
 		if (count != -1)
 		{
 			path = dirname(result);
-		}*/
+		}
 		char cmd[logFileNameLength] = {0};
 		//sprintf(cmd, "mkdir -p %s/Logs", path);
 		sprintf(cmd, "mkdir -p /var/log/Logs");
@@ -100,9 +100,9 @@ char * getLogName(){
 	#endif
 
 	//if(path==0)
-		sprintf(logFileName, "/var/log/Logs/LOG_%s", asctime(timeinfo));
+	//	sprintf(logFileName, "/var/log/Logs/LOG_%s", asctime(timeinfo));
 	//else 
-	//	sprintf(logFileName, "%s/Logs/LOG_%s.txt", path, asctime(timeinfo));
+		sprintf(logFileName, "%s/Logs/LOG_%s.txt", path, asctime(timeinfo));
 
 	sprintf(logFileName + strlen(logFileName) - 1, ".txt");
 
