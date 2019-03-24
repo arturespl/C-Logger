@@ -102,7 +102,7 @@ char * getLogName(){
 	//if(path==0)
 	//	sprintf(logFileName, "/var/log/Logs/LOG_%s", asctime(timeinfo));
 	//else 
-		sprintf(logFileName, "%s/Logs/LOG_%s.txt", path, asctime(timeinfo));
+		sprintf(logFileName, "%s/Logs/LOG_%s", path, asctime(timeinfo));
 
 	sprintf(logFileName + strlen(logFileName) - 1, ".txt");
 
@@ -137,12 +137,12 @@ void myLOG(const char* LOG_LVL
 	int pid = getpid();
 
 #ifdef BUILD
-#define FORMAT "\n%s | pid:%d | %s | %s | %s"
+#define FORMAT "\n%s | pid:%d | %s | %s\t | %s"
 	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, pid, _date, _time, format) + 1 ) * sizeof(char) ;
 	buff1 = (char*)malloc( needed_length );
 	sprintf(buff1, FORMAT, LOG_LVL, pid, _date, _time, format);
 #else
-#define FORMAT "\n%s | pid:%d | %s | %s | %s:%d | %s"
+#define FORMAT "\n%s | pid:%d | %s | %s\t | %s:%d | %s"
 	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, pid, _date, _time, FILEN, LINE, format) + 1) * sizeof(char);
 	buff1 = (char*)malloc( needed_length);
 	sprintf(buff1, FORMAT, LOG_LVL, pid, _date, _time, FILEN, LINE, format);

@@ -27,6 +27,7 @@ void setLogFileName(char* buff, int buflen);
 
 //#define LOG_INIT(s) setLogFileName(s, strlen(s))
 
+
 #ifdef DEBUG
 
 #define LOG_DEBUG(s,...) 	myLOG("DEBUG  ", __FILE__, __LINE__, s, __VA_ARGS__)
@@ -60,7 +61,11 @@ void setLogFileName(char* buff, int buflen);
 #define LOG_ERROR(s,...)
 #endif
 
-
-
+/*
+#define LOG_DEBUG(s) 	LOG_DEBUG("%s", s) 
+#define LOG_INFO(s)		LOG_INFO("%s", s) 
+#define LOG_WARNING(s)	LOG_WARNING("%s", s) 
+#define LOG_ERROR(s)	LOG_ERROR("%s", s) 
+*/
 
 #endif /* LOG_H_ */
