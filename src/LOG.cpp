@@ -94,15 +94,12 @@ char * getLogName(){
 			path = dirname(result);
 		}
 		char cmd[logFileNameLength] = {0};
-		//sprintf(cmd, "mkdir -p %s/Logs", path);
-		sprintf(cmd, "mkdir -p /var/log/Logs");
+		sprintf(cmd, "mkdir -p %s/Logs", path);
+		//sprintf(cmd, "mkdir -p /var/log/Logs");
 		system(cmd);
 	#endif
 
-	//if(path==0)
-	//	sprintf(logFileName, "/var/log/Logs/LOG_%s", asctime(timeinfo));
-	//else 
-		sprintf(logFileName, "%s/Logs/LOG_%s", path, asctime(timeinfo));
+	sprintf(logFileName, "%s/Logs/LOG_%s", path, asctime(timeinfo));
 
 	sprintf(logFileName + strlen(logFileName) - 1, ".txt");
 
@@ -137,12 +134,12 @@ void myLOG(const char* LOG_LVL
 	int pid = getpid();
 
 #ifdef BUILD
-#define FORMAT "\n%s | pid:%d | %s | %s\t | %s"
+#define FORMAT "%s | pid:%d | %s | %s\t | %s\n"
 	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, pid, _date, _time, format) + 1 ) * sizeof(char) ;
 	buff1 = (char*)malloc( needed_length );
 	sprintf(buff1, FORMAT, LOG_LVL, pid, _date, _time, format);
 #else
-#define FORMAT "\n%s | pid:%d | %s | %s\t | %s:%d | %s"
+#define FORMAT "%s | pid:%d | %s | %s\t | %s:%d | %s\n"
 	needed_length = (snprintf(NULL, 0, FORMAT, LOG_LVL, pid, _date, _time, FILEN, LINE, format) + 1) * sizeof(char);
 	buff1 = (char*)malloc( needed_length);
 	sprintf(buff1, FORMAT, LOG_LVL, pid, _date, _time, FILEN, LINE, format);
